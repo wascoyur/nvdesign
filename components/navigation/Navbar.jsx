@@ -6,6 +6,7 @@ import Image from "next/image";
 import Head from "next/head";
 
 const Navbar = () => {
+  const username = "mock";
   return (
     <Fragment>
       <nav
@@ -28,16 +29,24 @@ const Navbar = () => {
           </button>
         </form>
         <div className=" nav-item m-1">Магазин</div>
-        <div className="col align-self-end">
-          <div className="nav-link m-1">
-            <i className="bi bi-box-arrow-in-right px-1"></i>
-            <Link href="/auth/login" className={styles.link}>
-              Вход
-            </Link>
-          </div>
-          <div className="nav-item m-1">
-            <Link href="/auth/register">Регистрация</Link>
-          </div>
+        <div className="col ">
+          {username == "mock" ? (
+            <div className="auth">
+              <div className="nav-link m-1">
+                <i className="bi bi-box-arrow-in-right px-1"></i>
+                <Link href="/auth/login" className={styles.link}>
+                  <a>Вход</a>
+                </Link>
+              </div>
+
+              <div className="nav-item m-1">
+                <Link href="/auth/register">Регистрация</Link>
+              </div>
+            </div>
+          ) : (
+            username
+          )}
+
           <div className="nav-item m-1">
             <Link href="/">Выйти</Link>
           </div>
