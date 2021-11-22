@@ -8,7 +8,6 @@ import Head from "next/head";
 const Navbar = () => {
   return (
     <Fragment>
-      
       <nav
         className={
           "navbar navbar-expand-md bg-success bg-opacity-50 text-white justify-content-center"
@@ -31,12 +30,16 @@ const Navbar = () => {
         <div className=" nav-item m-1">Магазин</div>
         <div className="col align-self-end">
           <div className="nav-link m-1">
+            <i className="bi bi-box-arrow-in-right px-1"></i>
             <Link href="/auth/login" className={styles.link}>
               Вход
             </Link>
           </div>
           <div className="nav-item m-1">
             <Link href="/auth/register">Регистрация</Link>
+          </div>
+          <div className="nav-item m-1">
+            <Link href="/">Выйти</Link>
           </div>
         </div>
         {/* </div> */}
