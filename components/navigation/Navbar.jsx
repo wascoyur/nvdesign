@@ -8,7 +8,7 @@ import Head from "next/head";
 const Navbar = () => {
   const username = "mock";
   return (
-    <Fragment>
+    <div className="container-fluid">
       <nav
         className={
           "navbar navbar-expand-md bg-success bg-opacity-50 text-white justify-content-center"
@@ -51,9 +51,8 @@ const Navbar = () => {
             <Link href="/">Выйти</Link>
           </div>
         </div>
-        {/* </div> */}
       </nav>
-    </Fragment>
+    </div>
   );
 };
 export default Navbar;
