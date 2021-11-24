@@ -1,11 +1,13 @@
+import React, { Fragment, useState } from "react";
 import Header from "next/head";
-import React, { Fragment } from "react";
 
-const Login = () => {
+const Completed = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   return (
     <Fragment>
       <Header>
-        <title>Вход в портал</title>
+        <title>Завершение регистрации</title>
       </Header>
       <div style={{ width: "400px", margin: "auto" }}>
         <div className="input-group mb-3">
@@ -21,4 +23,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Completed;
