@@ -5,15 +5,18 @@ import { toast } from "react-toastify";
 
 const Register = () => {
   const [email, setEmail] = useState("");
-  let btnDisable = email
-    ? "btn btn-outline-primary btn-sm "
-    : "btn btn-outline-primary btn-sm disabled";
+  const [isLoading, setIsloading] = useState(false);
+  let btnDisable =
+    email && !isLoading
+      ? "btn btn-outline-primary btn-sm "
+      : "btn btn-outline-primary btn-sm disabled";
   const clear = () => {
     setEmail("");
+    setIsloading(false);
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // console.log(email);
+    setIsloading(true);
     const config = {
       url: process.env.NEXT_PUBLIC_redirect_url,
       handleCodeInApp: true,
@@ -36,7 +39,7 @@ const Register = () => {
         const errorMessage = e.message;
       });
 
-    // console.log("token", token);
+    clear();
   };
   const handleForm = (e) => {
     setEmail(e.target.value);

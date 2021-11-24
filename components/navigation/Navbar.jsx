@@ -8,7 +8,7 @@ import Head from "next/head";
 const Navbar = () => {
   const username = "mock";
   return (
-    <div className="container-fluid">
+    <div className="container-fluid px-0">
       <nav
         className={
           "navbar navbar-expand-md bg-success bg-opacity-50 text-white justify-content-center"
