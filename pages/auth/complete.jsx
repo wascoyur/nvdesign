@@ -1,16 +1,30 @@
 import React, { Fragment, useEffect, useState } from "react";
 import Header from "next/head";
+import { confirm } from "functions/firebase/confirmEmailRegistration";
 
 const Completed = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const btnOff =
+  const btnClassName =
     email && password && password.length > 6
       ? "btn btn-outline-primary"
       : "btn btn-outline-primary disabled";
-  const handleInput = (e) => {};
-  const handlePassword = (e) => {
-    setPassword(e.target.value);
+  const handleInput = (e) => {
+    console.log({ e });
+    switch (e.target.name) {
+      case "login":
+        setEmail(e.target.value);
+        break;
+      case "password":
+        setPassword(e.target.value);
+        break;
+
+      default:
+        break;
+    }
+  };
+  const handleRegister = (e) => {
+      confirm()
   };
   useEffect(() => {
     setEmail(window.localStorage.getItem("emailForRegister"));
@@ -24,6 +38,7 @@ const Completed = () => {
         <div className="input-group mb-3">
           <label className="my-3">Логин</label>
           <input
+            name="login"
             defaultValue={email}
             type="text"
             className="form-control"
@@ -35,11 +50,14 @@ const Completed = () => {
           <input
             type="password"
             className="form-control"
-            onChange={handlePassword}
+            onChange={handleInput}
             autoFocus
+            name="password"
           ></input>
         </div>
-        <div className={btnOff}>Завершить регистрацию</div>
+        <div className={btnClassName} onClick={handleRegister}>
+          Завершить регистрацию
+        </div>
       </div>
     </Fragment>
   );

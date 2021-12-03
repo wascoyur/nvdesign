@@ -1,15 +1,14 @@
 import React, { Fragment, useState } from "react";
 import Head from "next/head";
-import { auth, sendSignInLinkToEmail } from "config/firebase";
+import { auth } from "config/firebase";
 import { toast } from "react-toastify";
+import { sendSignInLinkToEmail } from "@firebase/auth";
+import { btnToggle } from "../../components/auth/btnToggle.jsx";
 
 const Register = () => {
   const [email, setEmail] = useState("");
   const [isLoading, setIsloading] = useState(false);
-  let btnDisable =
-    email && !isLoading
-      ? "btn btn-outline-primary btn-sm "
-      : "btn btn-outline-primary btn-sm disabled";
+  let btnDisable = btnToggle(email, isLoading);
   const clear = () => {
     setEmail("");
     setIsloading(false);
