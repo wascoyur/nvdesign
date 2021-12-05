@@ -1,14 +1,35 @@
-import Head from "next/head";
-import Image from "next/image";
-import { Fragment } from "react";
-import { Provider } from "react-redux";
+import { onAuthStateChanged } from "@firebase/auth";
+import { auth } from "config/firebase";
+import { useEffect } from "react";
+import { Provider, useDispatch } from "react-redux";
+import { USER_LOGIN } from "redux/reducers/authReducer";
 import store from "redux/store";
-import Navbar from "../components/navigation/Navbar";
 
-export default function Home() {
+const Home = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const idTokenResult = await user.getIdTokenResult();
+        console.log({ idTokenResult });
+        dispatch({
+          type: USER_LOGIN,
+          payload: {
+            name: user.email,
+            token: idTokenResult,
+          },
+        });
+      }
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
   return (
-    <Provider store={store}>
-      <center>Start Page</center>
-    </Provider>
+    // <Provider store={store}>
+    <center>Start Page</center>
+    // </Provider>
   );
-}
+};
+export default Home;

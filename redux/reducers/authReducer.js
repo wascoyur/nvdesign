@@ -1,5 +1,5 @@
-const USER_LOGIN = "USER_LOGIN";
-const USER_LOGOUT = "USER_LOGUT";
+export const USER_LOGIN = "USER_LOGIN";
+export const USER_LOGOUT = "USER_LOGUT";
 
 const userReducer = (state = null, action) => {
   switch (action.type) {
