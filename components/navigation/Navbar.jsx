@@ -1,57 +1,41 @@
 import React, { Fragment, useEffect, useState } from "react";
 import styles from "@/styles/Navbar.module.css";
 import Link from "next/link";
-
+import logo from "../../public/icons/NV-logo.jpg";
 import Image from "next/image";
 import Head from "next/head";
 
 const Navbar = () => {
-  const username = "mock";
-  return (
-    <div className="container-fluid px-0">
-      <nav
-        className={
-          "navbar navbar-expand-md bg-success bg-opacity-50 text-white justify-content-center"
-        }
-      >
-        {/* <div className="container"> */}
-        <div className="col navbar-brand mx-2">NVDesign</div>
-
-        <form className="d-flex">
-          <input
-            className="form-control me-2"
-            type="search"
-            placeholder="Поиск"
-            aria-label="Search"
-          />
-          <button className="btn btn-outline-white" type="submit">
-            Поиск
-          </button>
-        </form>
-        <div className=" nav-item m-1">Магазин</div>
-        <div className="col ">
-          {username == "mock" ? (
-            <div className="auth">
-              <div className="nav-link m-1">
-                <i className="bi bi-box-arrow-in-right px-1"></i>
-                <Link href="/auth/login" className={styles.link}>
-                  <a>Вход</a>
-                </Link>
-              </div>
-
-              <div className="nav-item m-1">
-                <Link href="/auth/register">Регистрация</Link>
-              </div>
-            </div>
-          ) : (
-            username
-          )}
-
-          <div className="nav-item m-1">
-            <Link href="/">Выйти</Link>
-          </div>
+  const userName = "we";
+  const authBlock =
+    userName && userName.length > 1 ? (
+      <div className={styles.auth}>
+        <div>{userName}</div>
+        <div>выход</div>
+      </div>
+    ) : (
+      <div className={styles.auth}>
+        <div>
+          <Link href="/register">register</Link>
         </div>
-      </nav>
+      </div>
+    );
+  return (
+    <div className={styles.main}>
+      <div className={styles.logo}>
+        <Link href="/" passHref>
+          <Image src={logo} alt="NVDesign"></Image>
+        </Link>
+      </div>
+      <div className={styles.searchbar}>
+        <form>
+          <input type="search" placeholder="Поиск" />
+          {/* <span className="" type="submit">
+            Поиск
+          </span> */}
+        </form>
+      </div>
+      {authBlock}
     </div>
   );
 };

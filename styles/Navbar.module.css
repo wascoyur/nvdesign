@@ -1,3 +1,23 @@
-.Navbar link {
-  text-decoration: none;
+.main {
+  display: grid;
+  grid-template-areas: "logo searchbar auth";
+  background-color: green;
+  color: white;
+  place-items: center;
+}
+
+.logo {
+  padding: 5px;
+  grid-area: logo;
+  max-width: 4rem;
+}
+.searchbar {
+  padding: 0.25rem;
+  grid-area: searchbar;
+  min-width: 5rem;
+  /* max-width: 100%; */
+}
+.auth {
+  grid-area: auth;
+  min-width: 3rem;
 }
