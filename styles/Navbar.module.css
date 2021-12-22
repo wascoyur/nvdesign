@@ -2,7 +2,7 @@
   width: 100%;
   display: grid;
   grid-template-areas: "logo searchbar auth";
-  grid-template-columns: 50px 2fr 0.5fr;
+  /* grid-template-columns: 50px 2fr ert; */
   background-color: green;
   color: white;
   place-items: center;
@@ -24,8 +24,7 @@
 }
 .auth {
   grid-area: auth;
-  min-width: 3rem;
-  max-width: 10rem;
+  /* width: 3rem; */
   place-content: center;
   padding-right: 0.25rem;
 }
@@ -54,9 +53,7 @@
   /* padding-left: 50%; */
   /* margin-left: 200px; */
 }
-.item {
-  /* margin-left: 50%; */
-}
+
 .item:hover {
   background-color: rgb(198, 229, 186);
 }
