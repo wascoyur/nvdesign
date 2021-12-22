@@ -4,16 +4,15 @@ import { signInWithEmailLink, updatePassword } from "@firebase/auth";
 import { auth } from "config/firebase";
 import { toast } from "react-toastify";
 import { useRouter } from "next/dist/client/router";
+import styles from "@/styles/auth.module.css";
+import Button from "@/components/ui/Button";
 
 const Completed = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const btnClassName =
-    email && password && password.length > 6 && !loading
-      ? "btn btn-outline-primary"
-      : "btn btn-outline-primary disabled";
+
   const handleInput = (e) => {
     // console.log({ e });
     switch (e.target.name) {
@@ -64,8 +63,8 @@ const Completed = () => {
       <Header>
         <title>Завершение регистрации</title>
       </Header>
-      <div style={{ width: "400px", margin: "auto" }}>
-        <div className="input-group mb-3">
+      <div className={styles.main}>
+        <div className={styles.formGroup}>
           <label className="my-3">Логин</label>
           <input
             name="login"
@@ -75,7 +74,7 @@ const Completed = () => {
             onChange={handleInput}
           />
         </div>
-        <div className="input-group mb-3">
+        <div className={styles.formGroup}>
           <label className="my-3">Пароль</label>
           <input
             type="password"
@@ -85,9 +84,12 @@ const Completed = () => {
             name="password"
           ></input>
         </div>
-        <div className={btnClassName} onClick={handleRegister}>
+        <Button
+          disabled={!email || password.length < 6}
+          handleClick={handleRegister}
+        >
           Завершить регистрацию
-        </div>
+        </Button>
       </div>
     </Fragment>
   );
