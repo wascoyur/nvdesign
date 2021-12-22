@@ -3,7 +3,6 @@ import Head from "next/head";
 import { auth } from "config/firebase";
 import { toast } from "react-toastify";
 import { sendSignInLinkToEmail } from "@firebase/auth";
-import { btnToggle } from "../../components/auth/btnToggle.jsx";
 import Button from "@/components/ui/Button.jsx";
 import styles from "@/styles/auth.module.css";
 
@@ -47,6 +46,9 @@ const Register = () => {
 
     // console.log(email);
   };
+  const emailIsValid = (email) => {
+    return email.includes("@") && email.includes(".");
+  };
   return (
     <Fragment>
       <Head>
@@ -67,7 +69,12 @@ const Register = () => {
             value={email}
           />
 
-          <Button disabled onClick={(e) => handleSubmit(e)}>Зарегистрировать</Button>
+          <Button
+            disabled={isLoading || !emailIsValid(email)}
+            onClick={(e) => handleSubmit(e)}
+          >
+            Зарегистрировать
+          </Button>
         </div>
       </div>
     </Fragment>
