@@ -5,7 +5,7 @@ import logo from "../../public/icons/NV-logo.jpg";
 import Image from "next/image";
 
 const Navbar = () => {
-  const userName = "userName";
+  const userName = "";
   const [open, setOpen] = useState(false);
   const isOpen = (e) => {
     setOpen((open) => !open);
@@ -33,7 +33,7 @@ const Navbar = () => {
   );
   const AuthBlock = () => {
     const register = (
-      <div /* className={styles.auth} */>
+      <div className={styles.auth}>
         <Link href="/auth/register">register</Link>
       </div>
     );
