@@ -4,11 +4,13 @@ import { auth } from "config/firebase";
 import { toast } from "react-toastify";
 import { sendSignInLinkToEmail } from "@firebase/auth";
 import { btnToggle } from "../../components/auth/btnToggle.jsx";
+import Button from "@/components/ui/Button.jsx";
+import styles from "@/styles/auth.module.css";
 
 const Register = () => {
   const [email, setEmail] = useState("");
   const [isLoading, setIsloading] = useState(false);
-  let btnDisable = btnToggle(email, isLoading);
+
   const clear = () => {
     setEmail("");
     setIsloading(false);
@@ -48,10 +50,13 @@ const Register = () => {
   return (
     <Fragment>
       <Head>
-        <title>Зарегистрироваться</title>
+        <title>Регистрация</title>
       </Head>
-      <div className="container p-5">
-        <div className="form-floating form-control-sm my-2 col-md-6 offset-md-3">
+      <div className={styles.main}>
+        <div className={styles.formGroup}>
+          <label htmlFor="floatingInput">
+            Для регистрации введите ваш адрес электронной почты
+          </label>
           <input
             type="email"
             className="form-control "
@@ -61,16 +66,8 @@ const Register = () => {
             autoFocus
             value={email}
           />
-          <label htmlFor="floatingInput">
-            Для регистрации введите ваш адрес электронной почты
-          </label>
-          <div
-            className={btnDisable}
-            onClick={(e) => handleSubmit(e)}
-            disabled={email}
-          >
-            Зарегистрировать: {email}
-          </div>
+
+          <Button disabled onClick={(e) => handleSubmit(e)}>Зарегистрировать</Button>
         </div>
       </div>
     </Fragment>

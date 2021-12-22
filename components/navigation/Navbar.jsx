@@ -34,7 +34,7 @@ const Navbar = () => {
   const AuthBlock = () => {
     const register = (
       <div className={styles.auth}>
-        <Link href="/auth/register">register</Link>
+        <Link href="/auth/register">Регистрация</Link>
       </div>
     );
     const user = (

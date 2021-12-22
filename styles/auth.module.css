@@ -1,1 +1,9 @@
-.register .login .complete button-on{}
+.main {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem 2rem;
+}
+.formGroup {
+  display: flex;
+  flex-direction: column;
+}
