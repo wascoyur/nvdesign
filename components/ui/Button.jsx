@@ -7,7 +7,11 @@ const cx = classNames.bind(styles);
 const Button = (props) => {
   const classNameButton = props.disabled ? cx("btn", "disabled") : cx("btn");
   return (
-    <button className={classNameButton} disabled={props.disabled}>
+    <button
+      className={classNameButton}
+      disabled={props.disabled}
+      onClick={props.handleClick}
+    >
       {props.children}
     </button>
   );

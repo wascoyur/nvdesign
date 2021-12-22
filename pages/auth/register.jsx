@@ -15,6 +15,7 @@ const Register = () => {
     setIsloading(false);
   };
   const handleSubmit = async (e) => {
+    console.log(e);
     e.preventDefault();
     setIsloading(true);
     const config = {
@@ -71,7 +72,7 @@ const Register = () => {
 
           <Button
             disabled={isLoading || !emailIsValid(email)}
-            onClick={(e) => handleSubmit(e)}
+            handleClick={handleSubmit}
           >
             Зарегистрировать
           </Button>
