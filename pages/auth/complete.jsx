@@ -46,8 +46,9 @@ const Completed = () => {
         return idTokenResult;
       })
       .then((token) => {
+        toast.success("Регистрация завершена");
         console.log({ token });
-        // router.push("/");
+        router.push("/");
       })
       .catch((err) => {
         toast.error(`Завершение регистрации завершилось неудачно.
