@@ -16,7 +16,7 @@ const Home = () => {
           type: USER_LOGIN,
           payload: {
             name: user.email,
-            token: idTokenResult,
+            token: idTokenResult.token,
           },
         });
       }
@@ -26,10 +26,6 @@ const Home = () => {
       unsubscribe();
     };
   }, []);
-  return (
-    // <Provider store={store}>
-    <center>Start Page</center>
-    // </Provider>
-  );
+  return <center>Start Page</center>;
 };
 export default Home;
