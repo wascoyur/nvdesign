@@ -7,11 +7,12 @@ import store from "redux/store";
 
 const Home = () => {
   const dispatch = useDispatch();
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         const idTokenResult = await user.getIdTokenResult();
-        console.log({ idTokenResult });
+        // console.log({ idTokenResult });
         dispatch({
           type: USER_LOGIN,
           payload: {

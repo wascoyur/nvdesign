@@ -1,5 +1,6 @@
 import Header from "next/head";
 import React, { Fragment } from "react";
+import styles from "@/styles/auth.module.css";
 
 const Login = () => {
   return (
@@ -7,14 +8,14 @@ const Login = () => {
       <Header>
         <title>Вход в портал</title>
       </Header>
-      <div style={{ width: "400px", margin: "auto" }}>
-        <div className="input-group mb-3">
+      <div className={styles.main}>
+        <div className={styles.formGroup}>
           <label className="my-3">Логин</label>
-          <input type="text" className="form-control"></input>
+          <input type="text"></input>
         </div>
-        <div className="input-group mb-3">
-          <label className="my-3">Пароль</label>
-          <input type="text" className="form-control"></input>
+        <div className={styles.formGroup}>
+          <label>Пароль</label>
+          <input type="text"></input>
         </div>
       </div>
     </Fragment>

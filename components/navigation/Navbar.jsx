@@ -3,12 +3,23 @@ import styles from "@/styles/Navbar.module.css";
 import Link from "next/link";
 import logo from "../../public/icons/NV-logo.jpg";
 import Image from "next/image";
+import { useDispatch } from "react-redux";
+import logout from "functions/firebase/logout";
+import { USER_LOGOUT } from "redux/reducers/authReducer";
+import { useRouter } from "next/router";
 
 const Navbar = () => {
-  const userName = "";
+  const userName = "regUser";
   const [open, setOpen] = useState(false);
+  const router = useRouter();
   const isOpen = (e) => {
     setOpen((open) => !open);
+  };
+  const dispatch = useDispatch();
+  const out = () => {
+    dispatch({ type: USER_LOGOUT, payload: null });
+    logout();
+    router.push("/auth/login");
   };
 
   const dropDownMenu = (
@@ -25,7 +36,9 @@ const Navbar = () => {
             <Link href="#">Чеки (покупки)</Link>
           </li>
           <li>
-            <Link href="#">Выход</Link>
+            <div href="#" onClick={out}>
+              Выход
+            </div>
           </li>
         </ul>
       </div>
