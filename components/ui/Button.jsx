@@ -5,6 +5,7 @@ import classNames from "classnames/bind";
 const cx = classNames.bind(styles);
 
 const Button = (props) => {
+  // props.styles ? console.log(Object.keys(props.styles)) : null;
   const classNameButton = props.disabled ? cx("btn", "disabled") : cx("btn");
   return (
     <button
