@@ -10,12 +10,20 @@ const Login = () => {
       </Header>
       <div className={styles.main}>
         <div className={styles.formGroup}>
-          <label className="my-3">Логин</label>
-          <input type="text"></input>
+          <label>Логин</label>
+          <input
+            type="text"
+            placeholder="Ваш логин"
+            className={styles.formControl}
+          ></input>
         </div>
         <div className={styles.formGroup}>
           <label>Пароль</label>
-          <input type="text"></input>
+          <input
+            type="text"
+            placeholder="Ваш пароль"
+            className={styles.formControl}
+          ></input>
         </div>
       </div>
     </Fragment>
