@@ -1,4 +1,8 @@
-import { signInWithEmailAndPassword } from "firebase/auth";
+import {
+  signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
 import { auth } from "config/firebase";
 import { toast } from "react-toastify";
 
@@ -14,9 +18,20 @@ export const submitLoginPassword = async (email, password) => {
     })
     .catch((error) => {
       toast.error("Неверный логин/пароль");
-      const errorCode = error.code;
-      const errorMessage = error.message;
     });
   // console.log({ result });
   return out;
+};
+
+export const loginWithGoogle = async () => {
+  const provider = new GoogleAuthProvider();
+  return await signInWithPopup(auth, provider)
+    .then(async (result) => {
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      return credential.idToken;
+    })
+    .catch((err) => {
+      // console.log(err);
+      toast.error(err.message);
+    });
 };

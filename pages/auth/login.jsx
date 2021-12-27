@@ -2,7 +2,10 @@ import Header from "next/head";
 import React, { Fragment, useState } from "react";
 import styles from "@/styles/auth.module.css";
 import Button from "@/components/ui/Button";
-import { submitLoginPassword } from "../../functions/auth/submitLoginPassword";
+import {
+  loginWithGoogle,
+  submitLoginPassword,
+} from "../../functions/auth/submitLoginPassword";
 import { useDispatch } from "react-redux";
 import { USER_LOGIN } from "redux/reducers/authReducer";
 import { toast } from "react-toastify";
@@ -13,8 +16,9 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
 
-  const login = async () => {
+  const loginEmailPassword = async (e) => {
     setIsLoading(true);
+
     await submitLoginPassword(email, password)
       .then((result) => {
         // console.log({ result });
@@ -33,13 +37,29 @@ const Login = () => {
     setIsLoading(false);
   };
 
+  const submitGoogle = async () => {
+    setIsLoading(true);
+    await loginWithGoogle()
+      .then((token) => {
+        dispatch({
+          type: USER_LOGIN,
+          payload: { email: email, token: token },
+        });
+      })
+      .catch((err) => {
+        toast.warning(err.message);
+        setIsLoading(false);
+      });
+    setIsLoading(false);
+  };
+
   return (
     <Fragment>
       <Header>
         <title>Вход в портал</title>
       </Header>
       <div className={styles.main}>
-        <div className={styles.formGroup}>
+        <form className={styles.formGroup}>
           <label>Логин</label>
           <input
             type="text"
@@ -48,21 +68,30 @@ const Login = () => {
             name="login"
             onChange={(e) => setEmail(handleInput(e))}
           />
-        </div>
-        <div className={styles.formGroup}>
+        </form>
+        <form className={styles.formGroup}>
           <label>Пароль</label>
           <input
-            type="text"
+            type="password"
             placeholder="Ваш пароль"
             className={styles.formControl}
             name="password"
+            autoComplete="current-password"
             onChange={(e) => setPassword(handleInput(e))}
           />
-        </div>
-        <Button disabled={!email || !password || isLoading} handleClick={login}>
+        </form>
+        <Button
+          name="login"
+          disabled={!email || !password || isLoading}
+          handleClick={loginEmailPassword}
+        >
           Вход с логином и паролем
         </Button>
-        <Button disabled={isLoading || !email || password}>
+        <Button
+          disabled={isLoading || !email || password}
+          name="google"
+          handleClick={submitGoogle}
+        >
           Вход с помощью Google
         </Button>
       </div>
