@@ -27,6 +27,8 @@
   /* width: 3rem; */
   place-content: center;
   padding-right: 0.25rem;
+  /* border: 1px solid red; */
+  /* background-color: aqua; */
 }
 .overlay {
   position: fixed;

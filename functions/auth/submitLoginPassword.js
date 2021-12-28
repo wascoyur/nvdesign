@@ -28,7 +28,12 @@ export const loginWithGoogle = async () => {
   return await signInWithPopup(auth, provider)
     .then(async (result) => {
       const credential = GoogleAuthProvider.credentialFromResult(result);
-      return credential.idToken;
+      const res = {
+        token: credential.idToken,
+        userName: auth.currentUser.displayName,
+      };
+      // console.log({ res });
+      return res;
     })
     .catch((err) => {
       // console.log(err);

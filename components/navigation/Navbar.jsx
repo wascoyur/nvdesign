@@ -3,13 +3,15 @@ import styles from "@/styles/Navbar.module.css";
 import Link from "next/link";
 import logo from "../../public/icons/NV-logo.jpg";
 import Image from "next/image";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import logout from "functions/firebase/logout";
 import { USER_LOGOUT } from "redux/reducers/authReducer";
 import { useRouter } from "next/router";
 
 const Navbar = () => {
-  const userName = "regUser";
+  const { user } = useSelector((state) => ({ ...state }));
+
+  const [userName, setUserName] = useState("");
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const isOpen = (e) => {
@@ -19,9 +21,14 @@ const Navbar = () => {
   const out = () => {
     dispatch({ type: USER_LOGOUT, payload: null });
     logout();
+    setUserName("");
     router.push("/auth/login");
   };
 
+  useEffect(() => {
+    user && setUserName(user.userName);
+    
+  }, []);
   const dropDownMenu = (
     <div className={open ? styles.overlay : styles.hide}>
       <div className={styles.content}>
@@ -47,7 +54,14 @@ const Navbar = () => {
   const AuthBlock = () => {
     const register = (
       <div className={styles.auth}>
-        <Link href="/auth/register">Регистрация</Link>
+        <ul>
+          <li>
+            <Link href="/auth/register">Регистрация</Link>
+          </li>
+          <li>
+            <Link href="/auth/login">Вход</Link>
+          </li>
+        </ul>
       </div>
     );
     const user = (

@@ -9,11 +9,13 @@ import {
 import { useDispatch } from "react-redux";
 import { USER_LOGIN } from "redux/reducers/authReducer";
 import { toast } from "react-toastify";
+import Link from "next/link";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [fogotpass, setFogotPass] = useState(false);
   const dispatch = useDispatch();
 
   const loginEmailPassword = async (e) => {
@@ -40,10 +42,11 @@ const Login = () => {
   const submitGoogle = async () => {
     setIsLoading(true);
     await loginWithGoogle()
-      .then((token) => {
+      .then((resp) => {
+        console.log({ resp });
         dispatch({
           type: USER_LOGIN,
-          payload: { email: email, token: token },
+          payload: { userName: resp.userName, token: resp.token },
         });
       })
       .catch((err) => {
@@ -52,6 +55,7 @@ const Login = () => {
       });
     setIsLoading(false);
   };
+  const fogotPass = () => {};
 
   return (
     <Fragment>
@@ -68,8 +72,7 @@ const Login = () => {
             name="login"
             onChange={(e) => setEmail(handleInput(e))}
           />
-        </form>
-        <form className={styles.formGroup}>
+
           <label>Пароль</label>
           <input
             type="password"
@@ -88,12 +91,15 @@ const Login = () => {
           Вход с логином и паролем
         </Button>
         <Button
-          disabled={isLoading || !email || password}
+          disabled={isLoading || email || password}
           name="google"
           handleClick={submitGoogle}
         >
           Вход с помощью Google
         </Button>
+        <div className={styles.repair}>
+          <Link href="/auth/repair">Забыл пароль?</Link>
+        </div>
       </div>
     </Fragment>
   );
