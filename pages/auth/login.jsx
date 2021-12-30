@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { USER_LOGIN } from "redux/reducers/authReducer";
 import { toast } from "react-toastify";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -17,6 +18,7 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [fogotpass, setFogotPass] = useState(false);
   const dispatch = useDispatch();
+  const router = useRouter()
 
   const loginEmailPassword = async (e) => {
     setIsLoading(true);
@@ -31,6 +33,7 @@ const Login = () => {
             token: result.token,
           },
         });
+        router.push('/')
       })
       .catch((err) => {
         toast.error(err.message);
@@ -43,7 +46,7 @@ const Login = () => {
     setIsLoading(true);
     await loginWithGoogle()
       .then((resp) => {
-        console.log({ resp });
+        // console.log({ resp });
         dispatch({
           type: USER_LOGIN,
           payload: { userName: resp.userName, token: resp.token },

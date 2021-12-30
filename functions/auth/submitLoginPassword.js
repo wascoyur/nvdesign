@@ -2,6 +2,7 @@ import {
   signInWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
+  onAuthStateChanged,
 } from "firebase/auth";
 import { auth } from "config/firebase";
 import { toast } from "react-toastify";
@@ -29,8 +30,8 @@ export const loginWithGoogle = async () => {
     .then(async (result) => {
       const credential = GoogleAuthProvider.credentialFromResult(result);
       const res = {
-        token: credential.idToken,
         userName: auth.currentUser.displayName,
+        token: credential.idToken,
       };
       // console.log({ res });
       return res;
@@ -40,3 +41,12 @@ export const loginWithGoogle = async () => {
       toast.error(err.message);
     });
 };
+
+// export const statusAuthChenged = () => {
+//   return onAuthStateChanged(auth, async (user) => {
+//     if (user) {
+//       return { token: await user.getIdTokenResult(), email: user.displayName };
+//       // console.log({ idTokenResult });
+//     } else return { token: "strt", email: "strt" };
+//   });
+// };

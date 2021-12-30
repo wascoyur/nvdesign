@@ -5,8 +5,11 @@ import logo from "../../public/icons/NV-logo.jpg";
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 import logout from "functions/firebase/logout";
-import { USER_LOGOUT } from "redux/reducers/authReducer";
+import { USER_LOGIN, USER_LOGOUT } from "redux/reducers/authReducer";
 import { useRouter } from "next/router";
+import { statusAuthChenged } from "functions/auth/submitLoginPassword";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "@/config/firebase";
 
 const Navbar = () => {
   const { user } = useSelector((state) => ({ ...state }));
@@ -27,8 +30,28 @@ const Navbar = () => {
 
   useEffect(() => {
     user && setUserName(user.userName);
-    
+  }, [user, userName]);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const idTokenResult = await user.getIdTokenResult();
+        // console.log({ idTokenResult });
+        dispatch({
+          type: USER_LOGIN,
+          payload: {
+            userName: user.email,
+            token: idTokenResult.token,
+          },
+        });
+      }
+    });
+
+    return () => {
+      unsubscribe();
+    };
   }, []);
+
   const dropDownMenu = (
     <div className={open ? styles.overlay : styles.hide}>
       <div className={styles.content}>
