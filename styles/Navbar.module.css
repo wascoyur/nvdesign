@@ -13,7 +13,7 @@
 .logo {
   padding: 5px;
   grid-area: logo;
-  max-width: rem;
+  max-width: 7rem;
 }
 .searchbar form {
   padding: 0.5rem;
