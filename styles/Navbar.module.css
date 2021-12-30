@@ -1,3 +1,61 @@
-.Navbar link {
-  text-decoration: none;
+.main {
+  width: 100%;
+  display: grid;
+  grid-template-areas: "logo searchbar auth";
+  /* grid-template-columns: 50px 2fr ert; */
+  background-color: green;
+  color: white;
+  place-items: center;
+}
+.main ul li {
+  padding: 0.5rem 0.25rem;
+}
+.logo {
+  padding: 5px;
+  grid-area: logo;
+  max-width: 7rem;
+}
+.searchbar form {
+  padding: 0.5rem;
+  grid-area: searchbar;
+  min-width: 5rem;
+  /* overflow: hidden; */
+  /* max-width: 100%; */
+}
+.auth {
+  grid-area: auth;
+  /* width: 3rem; */
+  place-content: center;
+  padding-right: 0.25rem;
+  /* border: 1px solid red; */
+  /* background-color: aqua; */
+}
+.overlay {
+  position: fixed;
+  /* display: none; */
+  z-index: 10;
+  right: 0;
+  padding-right: 0.25rem;
+  width: 200px;
+  height: 8rem;
+  background-color: rgb(42 145 110);
+  transform: 0.5s;
+}
+.hide {
+  display: none;
+}
+
+.dropdown {
+  padding-left: 0.5rem;
+}
+.content {
+  opacity: 0.8;
+  color: white;
+  font-weight: bold;
+  /* padding-left: 50%; */
+  /* margin-left: 200px; */
+}
+
+.item:hover {
+  background-color: rgb(198, 229, 186);
 }

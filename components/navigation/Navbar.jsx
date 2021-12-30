@@ -1,57 +1,121 @@
 import React, { Fragment, useEffect, useState } from "react";
 import styles from "@/styles/Navbar.module.css";
 import Link from "next/link";
-
+import logo from "../../public/icons/NV-logo.jpg";
 import Image from "next/image";
-import Head from "next/head";
+import { useDispatch, useSelector } from "react-redux";
+import logout from "functions/firebase/logout";
+import { USER_LOGIN, USER_LOGOUT } from "redux/reducers/authReducer";
+import { useRouter } from "next/router";
+import { statusAuthChenged } from "functions/auth/submitLoginPassword";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "@/config/firebase";
 
 const Navbar = () => {
-  const username = "mock";
-  return (
-    <div className="container-fluid px-0">
-      <nav
-        className={
-          "navbar navbar-expand-md bg-success bg-opacity-50 text-white justify-content-center"
-        }
-      >
-        {/* <div className="container"> */}
-        <div className="col navbar-brand mx-2">NVDesign</div>
+  const { user } = useSelector((state) => ({ ...state }));
 
-        <form className="d-flex">
-          <input
-            className="form-control me-2"
-            type="search"
-            placeholder="Поиск"
-            aria-label="Search"
-          />
-          <button className="btn btn-outline-white" type="submit">
-            Поиск
-          </button>
-        </form>
-        <div className=" nav-item m-1">Магазин</div>
-        <div className="col ">
-          {username == "mock" ? (
-            <div className="auth">
-              <div className="nav-link m-1">
-                <i className="bi bi-box-arrow-in-right px-1"></i>
-                <Link href="/auth/login" className={styles.link}>
-                  <a>Вход</a>
-                </Link>
-              </div>
+  const [userName, setUserName] = useState("");
+  const [open, setOpen] = useState(false);
+  const router = useRouter();
+  const isOpen = (e) => {
+    setOpen((open) => !open);
+  };
+  const dispatch = useDispatch();
+  const out = () => {
+    dispatch({ type: USER_LOGOUT, payload: null });
+    logout();
+    setUserName("");
+    router.push("/auth/login");
+  };
 
-              <div className="nav-item m-1">
-                <Link href="/auth/register">Регистрация</Link>
-              </div>
+  useEffect(() => {
+    user && setUserName(user.userName);
+  }, [user, userName]);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const idTokenResult = await user.getIdTokenResult();
+        // console.log({ idTokenResult });
+        dispatch({
+          type: USER_LOGIN,
+          payload: {
+            userName: user.email,
+            token: idTokenResult.token,
+          },
+        });
+      }
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  const dropDownMenu = (
+    <div className={open ? styles.overlay : styles.hide}>
+      <div className={styles.content}>
+        <ul>
+          <li>
+            <Link href="#">Личный кабинет</Link>
+          </li>
+          <li>
+            <Link href="#">Корзина</Link>
+          </li>
+          <li>
+            <Link href="#">Чеки (покупки)</Link>
+          </li>
+          <li>
+            <div href="#" onClick={out}>
+              Выход
             </div>
-          ) : (
-            username
-          )}
+          </li>
+        </ul>
+      </div>
+    </div>
+  );
+  const AuthBlock = () => {
+    const register = (
+      <div className={styles.auth}>
+        <ul>
+          <li>
+            <Link href="/auth/register">Регистрация</Link>
+          </li>
+          <li>
+            <Link href="/auth/login">Вход</Link>
+          </li>
+        </ul>
+      </div>
+    );
+    const user = (
+      <div className={styles.auth}>
+        {userName}
+        {dropDownMenu}
+      </div>
+    );
+    return userName && userName.length > 1 ? user : register;
+  };
 
-          <div className="nav-item m-1">
-            <Link href="/">Выйти</Link>
-          </div>
-        </div>
-      </nav>
+  return (
+    <div className={styles.main}>
+      <div className={styles.logo}>
+        <Link href="/">
+          <a>
+            <Image src={logo} alt="NVDesign" />
+          </a>
+        </Link>
+      </div>
+      <div className={styles.searchbar}>
+        <form>
+          <input type="search" placeholder="Поиск" />
+          {/* <span className="" type="submit">
+            Поиск
+          </span> */}
+        </form>
+      </div>
+      <div onClick={isOpen} onBlur={isOpen}>
+        <AuthBlock />
+      </div>
     </div>
   );
 };

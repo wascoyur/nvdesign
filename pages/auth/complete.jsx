@@ -1,16 +1,20 @@
 import React, { Fragment, useEffect, useState } from "react";
 import Header from "next/head";
-import { confirm } from "functions/firebase/confirmEmailRegistration";
+import { signInWithEmailLink, updatePassword } from "@firebase/auth";
+import { auth } from "config/firebase";
+import { toast } from "react-toastify";
+import { useRouter } from "next/dist/client/router";
+import styles from "@/styles/auth.module.css";
+import Button from "@/components/ui/Button";
 
 const Completed = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const btnClassName =
-    email && password && password.length > 6
-      ? "btn btn-outline-primary"
-      : "btn btn-outline-primary disabled";
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
   const handleInput = (e) => {
-    console.log({ e });
+    // console.log({ e });
     switch (e.target.name) {
       case "login":
         setEmail(e.target.value);
@@ -23,8 +27,34 @@ const Completed = () => {
         break;
     }
   };
-  const handleRegister = (e) => {
-      confirm()
+  const handleRegister = async (e) => {
+    setLoading(true);
+    await signInWithEmailLink(auth, email)
+      .then((res) => {
+        if (!res.user.emailVerified) throw new Error();
+        // console.log({ res });
+        window.localStorage.removeItem("emailForRegister");
+        return auth.currentUser;
+      })
+      .then((currentUser) => {
+        updatePassword(currentUser, password);
+        // console.log({ updatedUser });
+        return currentUser;
+      })
+      .then((updatedUser) => {
+        const idTokenResult = updatedUser.getIdTokenResult();
+        return idTokenResult;
+      })
+      .then((token) => {
+        toast.success("Регистрация завершена");
+        console.log({ token });
+        router.push("/");
+      })
+      .catch((err) => {
+        toast.error(`Завершение регистрации завершилось неудачно.
+      Попробуйте еще раз`);
+      });
+    setLoading(false);
   };
   useEffect(() => {
     setEmail(window.localStorage.getItem("emailForRegister"));
@@ -34,8 +64,8 @@ const Completed = () => {
       <Header>
         <title>Завершение регистрации</title>
       </Header>
-      <div style={{ width: "400px", margin: "auto" }}>
-        <div className="input-group mb-3">
+      <div className={styles.main}>
+        <div className={styles.formGroup}>
           <label className="my-3">Логин</label>
           <input
             name="login"
@@ -45,7 +75,7 @@ const Completed = () => {
             onChange={handleInput}
           />
         </div>
-        <div className="input-group mb-3">
+        <div className={styles.formGroup}>
           <label className="my-3">Пароль</label>
           <input
             type="password"
@@ -55,9 +85,12 @@ const Completed = () => {
             name="password"
           ></input>
         </div>
-        <div className={btnClassName} onClick={handleRegister}>
+        <Button
+          disabled={!email || password.length < 6}
+          handleClick={handleRegister}
+        >
           Завершить регистрацию
-        </div>
+        </Button>
       </div>
     </Fragment>
   );

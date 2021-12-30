@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, sendSignInLinkToEmail } from "firebase/auth";
+import { getAuth,  } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_api_key,
@@ -12,7 +12,6 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
-
 // console.log("firebaseConfig", firebaseConfig);
 
 // debugger;

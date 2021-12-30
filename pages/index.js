@@ -1,12 +1,17 @@
-import Head from "next/head";
-import Image from "next/image";
-import { Fragment } from "react";
-import Navbar from "../components/navigation/Navbar";
+import { onAuthStateChanged } from "@firebase/auth";
+import { auth } from "config/firebase";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { USER_LOGIN } from "redux/reducers/authReducer";
 
-export default function Home() {
+const Home = () => {
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state);
+
   return (
-    <Fragment>
-      <center>Start Page</center>
-    </Fragment>
+    <center>
+      Start Page<div></div>
+    </center>
   );
-}
+};
+export default Home;
